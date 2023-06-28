@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react';
 
 type Nullable<T> = T | null;
-const REQUEST_LIMIT = 1
+const REQUEST_LIMIT = 1;
 
 export function useFetch<Data>(url: string) {
-
   const [requestLimitLeft, setRequestLimitLeft] = useState(REQUEST_LIMIT);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
   const [data, setData] = useState<Nullable<Data>>(null);
 
   const request = useCallback(() => {
@@ -23,18 +22,18 @@ export function useFetch<Data>(url: string) {
         }
         return res.json() as Promise<Data>;
       })
-      .then(data => {
+      .then((data) => {
         setData(data);
         setRequestLimitLeft(0);
       })
       .catch(() => {
         setError(true);
-        setRequestLimitLeft(prev => prev - 1);
+        setRequestLimitLeft((prev) => prev - 1);
       })
       .finally(() => {
         setIsLoading(false);
-      })
-  }, [url])
+      });
+  }, [url]);
 
   const refetch = (
     options = {
@@ -51,7 +50,7 @@ export function useFetch<Data>(url: string) {
       return;
     }
     request();
-  }, [requestLimitLeft, url, request])
+  }, [requestLimitLeft, url, request]);
 
-  return { data, isLoading, error, refetch }
+  return { data, isLoading, error, refetch };
 }
