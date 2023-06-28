@@ -1,9 +1,9 @@
 import { useFetch } from "./hooks/useFetch";
 
-export function Demo() {
-  const { data, isLoading, error, refetch } = useFetch<Array<{id: number | string, title: string}>>(
-    'https://jsonplaceholder.typicode.com/posts5'
-  );
+export function DemoFetch() {
+  const { data, isLoading, error, refetch } = useFetch<
+    Array<{ id: number | string; title: string }>
+  >('https://jsonplaceholder.typicode.com/posts');
 
   return (
     <div>

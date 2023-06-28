@@ -9,12 +9,12 @@ export function useFetch<Data>(url: string) {
   const [error, setError] = useState(false);
   const [data, setData] = useState<Nullable<Data>>(null);
 
-  const request = useCallback(() => {
+  const request = useCallback(async () => {
     setIsLoading(true);
     setError(false);
     setData(null);
 
-    return fetch(url)
+    await fetch(url)
       .then((res) => {
         if (!res.ok) {
           // обработка ошибок - для упрощения просто пока по полю ok без проброса далее сообщений об ошибках сервера
@@ -28,7 +28,7 @@ export function useFetch<Data>(url: string) {
       })
       .catch(() => {
         setError(true);
-        setRequestLimitLeft((prev) => prev - 1);
+        setRequestLimitLeft((prev) => (prev > 0 ? prev - 1 : 0));
       })
       .finally(() => {
         setIsLoading(false);
@@ -42,7 +42,7 @@ export function useFetch<Data>(url: string) {
       },
     }
   ) => {
-    setRequestLimitLeft(options.params._limit);
+    setRequestLimitLeft(Math.abs(options.params._limit));
   };
 
   useEffect(() => {
