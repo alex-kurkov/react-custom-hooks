@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useArrayToggle<T>(
+export function useArrayToggle<T extends string | boolean>(
   array: T[] = [true, false] as T[]
 ): [T, (...args: T[]) => void] {
   const [index, setIndex] = useState(0);
