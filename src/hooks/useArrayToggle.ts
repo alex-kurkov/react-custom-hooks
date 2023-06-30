@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 type StringBooleanArrType = string[] | boolean[];
 
@@ -16,18 +16,18 @@ function makeInitialArray(arr?: StringBooleanArrType): StringBooleanArrType {
 
 export function useArrayToggle(
   array?: StringBooleanArrType
-): [string | boolean, (...args: StringBooleanArrType) => void] {
+): [string | boolean, (...args: unknown[]) => void] {
   const dataArray = makeInitialArray(array);
 
   const [index, setIndex] = useState(0);
 
-  const toggle = (...args: StringBooleanArrType) => {
-    if (args.length === 0 || !!args) {
+  const toggle = (...args: unknown[]) => {
+    if (args.length === 0) {
       setIndex((p) => (p + 1 === dataArray.length ? 0 : p + 1));
       return;
     }
 
-    const nextIndex = dataArray.indexOf(args[0]);
+    const nextIndex = dataArray.indexOf(args[0] as never);
     if (nextIndex === -1) {
       console.error(
         `the value of "${args[0]}" is not present in array: ${dataArray}`
