@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 type StringBooleanArrType = string[] | boolean[];
 
