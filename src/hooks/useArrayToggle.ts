@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
-function makeInitialArray<T>(arr?: T[]): T[] {
+type StringBoolean = string | boolean;
+
+function makeInitialArray(arr?: StringBoolean[]): StringBoolean[] {
   if (Array.isArray(arr) && arr.length) {
     return arr;
   }
@@ -9,17 +11,15 @@ function makeInitialArray<T>(arr?: T[]): T[] {
       `переданный в хук аргумент ${arr} должен быть либо массивом, либо отсутствовать. Будут применены дефолтные значения: [true, false]`
     );
   }
-  return [true, false] as T[];
+  return [true, false];
 }
 
-export function useArrayToggle<T extends string | boolean>(
-  array?: T[]
-): [T, (...args: T[]) => void] {
-  const dataArray = makeInitialArray<T>(array);
+export function useArrayToggle(array?: StringBoolean[]): [StringBoolean, (...args: StringBoolean[]) => void] {
+  const dataArray = makeInitialArray(array);
 
   const [index, setIndex] = useState(0);
 
-  const toggle = (...args: T[]) => {
+  const toggle = (...args: StringBoolean[]) => {
     if (args.length === 0) {
       setIndex((p) => (p + 1 === dataArray.length ? 0 : p + 1));
       return;
