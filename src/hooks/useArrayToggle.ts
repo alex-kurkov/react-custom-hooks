@@ -23,7 +23,13 @@ export function useArrayToggle(
 
   const toggle = (...args: unknown[]) => {
     if (args.length === 0) {
-      setIndex((p) => (p + 1 === dataArray.length ? 0 : p + 1));
+      setIndex((p) => {
+        if (p + 1 === dataArray.length) {
+          return 0
+        } else {
+          return p + 1
+        }
+      });
       return;
     }
 
