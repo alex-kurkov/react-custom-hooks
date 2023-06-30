@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-type StringBoolean = string | boolean;
+type StringBooleanArrType = string[] | boolean[];
 
-function makeInitialArray(arr?: StringBoolean[]): StringBoolean[] {
+function makeInitialArray(arr?: StringBooleanArrType): StringBooleanArrType {
   if (Array.isArray(arr) && arr.length) {
     return arr;
   }
@@ -14,13 +14,15 @@ function makeInitialArray(arr?: StringBoolean[]): StringBoolean[] {
   return [true, false];
 }
 
-export function useArrayToggle(array?: StringBoolean[]): [StringBoolean, (...args: StringBoolean[]) => void] {
+export function useArrayToggle(
+  array?: StringBooleanArrType
+): [string | boolean, (...args: StringBooleanArrType) => void] {
   const dataArray = makeInitialArray(array);
 
   const [index, setIndex] = useState(0);
 
-  const toggle = (...args: StringBoolean[]) => {
-    if (args.length === 0) {
+  const toggle = (...args: StringBooleanArrType) => {
+    if (args.length === 0 || !!args) {
       setIndex((p) => (p + 1 === dataArray.length ? 0 : p + 1));
       return;
     }
